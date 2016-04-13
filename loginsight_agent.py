@@ -42,10 +42,12 @@ def main():
             os.system('sudo apt-get install  libdbi1 libapr1 libperl5.18 -y')
             os.system('wget -P /tmp https://nxlog.co/system/files/products/files/1/nxlog-ce_2.9.1504_ubuntu_1404_amd64.deb')
             os.system('sudo dpkg -i /tmp/nxlog-ce_2.9.1504_ubuntu_1404_amd64.deb')
+            os.system('rm -rf /tmp/nxlog-ce_2.9.1504_ubuntu_1404_amd64.deb')
         elif sys_type == "Redhat" in sys_type or sys_type =="CentOS Linux":
             os.system('yum install -y libdbi libdbi.so.0 libpcre.so.0 libpcre.so*')
             os.system('wget -P /tmp https://nxlog.co/system/files/products/files/1/nxlog-ce-2.9.1504-1_rhel6.x86_64.rpm')
-            os.system('rpm -ivh /tmp/nxlog-ce-2.9.1504-1_rhel6.x86_64.rpm')
+            os.system('rpm -ivh /tmp/nxlog-ce-2.9.1504-1_rhel6.x86_64.rpm --nodeps')
+            os.system('rm -rf /tmp/nxlog-ce-2.9.1504-1_rhel6.x86_64.rpm*')
         else:
             print "You linux system not support."
     elif platform_info == "Windows":
