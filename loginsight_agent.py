@@ -15,8 +15,8 @@ CLIENT_ID = "1S_wRvye9?Xq4mU91e!MPixJ9Qjl3yQIaW?7G=2j"
 CLIENT_SECRET = "hLXU?HCktQu::1xz9EsjWMUq:yiLp2A=SgQpH4HKTgM4zFS@WMQjFtVGSYV.gu6wC!6UCgfxSqyzKUZWymuyQq_lUGQH;Udmhy3gvAQ73GNF3HXgzT94YkNP0RvIx:m1"
 
 # 用户名和密码
-#username='test'
-#password = '123qwe'
+# username='test'
+# password = '123qwe'
 
 username = str(raw_input('please input your usrname:\n'))
 password = str(raw_input('please input your passwd:\n'))
@@ -85,9 +85,10 @@ def custom_config():
     streamkey = raw_input("Please input your streamkey:\n")
     streamtype = raw_input("Please input your streamtype:\n")
     streamtag = raw_input("Please input your streamtag:\n")
+    tpl_dir = "./nxlog.conf.tpl"
+    output_file = "./test.dat"
 
-
-    with open("./nxlog.conf.tpl", "r") as fd:
+    with open(tpl_dir, "r") as fd:
         content = fd.read(4096)
         # print 'content = ', content
         template = Template(content)
@@ -111,43 +112,21 @@ def custom_config():
         #     'CERTDIR': cert_dir
         # }]
 
-        kwargs = {
-        'LOG_NAME':log_name,
-        'LOG_PATH':log_path,
-        'HOSTNAME': host_name,
-        'STREAMKEY':streamkey,
-        'SREAMTYPE': streamtype,
-        'STREAMRAG': streamtag,
-        'CERTDIR': cert_dir,
-        'NXLOG_CONFIG_DIR': nxlog_config,
-        'CERTDIR': cert_dir
-        }
+    kwargs = {
+    'LOG_PATH':log_path,
+    'HOSTNAME': host_name,
+    'STREAMKEY':streamkey,
+    'SREAMTYPE': streamtype,
+    'STREAMRAG': streamtag,
+    'CERTDIR': cert_dir,
+    'NXLOG_CONFIG_DIR': nxlog_config,
+    'CERTDIR': cert_dir
+    }
 
-        a = template.render(**kwargs)
-        print a
-
-
-    with open("./nxlog.conf.tpl", "r") as fd:
-        content = fd.read(4096)
-        # print 'content = ', content
-        template = Template(content)
-
-        var_dict = [{
-            'LOG_NAME': log_name
-        }, {
-            'LOG_PATH': log_path
-        }, {
-            'HOSTNAME': host_name
-        }, {
-            'STREAMKEY': streamkey
-        }, {
-            'SREAMTYPE': streamtype
-        }, {
-            'STREAMTAG': streamtag
-        }]
-
-        a = template.render(input_list=var_dict)
-        print a
+    a = template.render(**kwargs)
+    print a
+    with open(output_file,'w') as f:
+        f.write(a)
 
 
     # if len(nxlog_config) == 0 or len(cert_dir) == 0 or len(log_name) == 0 or len(log_path) == 0 or len(host_name) == 0 or len(tag) == 0:
