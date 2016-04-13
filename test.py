@@ -13,7 +13,6 @@ import os
 import socket
 
 host_name = socket.gethostname()
-print(socket.gethostname())
 
 def custom_config():
     raw_input('Press any key to continue..\n')
@@ -33,28 +32,56 @@ def custom_config():
         # print 'content = ', content
         template = Template(content)
 
+        #
+        # var_dict = [{
+        #     'LOG_NAME': log_name
+        # }, {
+        #     'LOG_PATH': log_path
+        # }, {
+        #     'HOSTNAME': host_name
+        # }, {
+        #     'STREAMKEY': streamkey
+        # }, {
+        #     'SREAMTYPE': streamtype
+        # }, {
+        #     'STREAMTAG': streamtag
+        # }, {
+        #     'NXLOG_CONFIG_DIR': nxlog_config
+        # }, {
+        #     'CERTDIR': cert_dir
+        # }]
 
-        var_dict = [{
-            'LOG_NAME': log_name
-        }, {
-            'LOG_PATH': log_path
-        }, {
-            'HOSTNAME': host_name
-        }, {
-            'STREAMKEY': streamkey
-        }, {
-            'SREAMTYPE': streamtype
-        }, {
-            'STREAMTAG': streamtag
-        }, {
-            'NXLOG_CONFIG_DIR': nxlog_config
-        }, {
-            'CERTDIR': cert_dir
-        }]
+        kwargs = {
+        'LOG_NAME':log_name,
+        'LOG_PATH':log_path,
+        'HOSTNAME': host_name,
+        'STREAMKEY':streamkey,
+        'SREAMTYPE': streamtype,
+        'STREAMRAG': streamtag,
+        'CERTDIR': cert_dir,
+        'NXLOG_CONFIG_DIR': nxlog_config,
+        'CERTDIR': cert_dir
+        }
 
-        a = template.render(input_list=var_dict)
+        a = template.render(**kwargs)
         print a
 
+def scan_logs():
+    if os.path.exists("/var/log"):
+        for default_logfile in os.listdir("/var/log"):
+            if default_logfile.endswith("log"):
+                return default_logfile
+                #todo: will add this to dict and caliing it on jinja
+                #print(default_logfile)
+
+    with open("./nxlog.conf.tpl", "r") as fd:
+        content = fd.read(4096)
+        # print 'content = ', content
+        template = Template(content)
+
+    b = template.render(scan_logs = scan_logs())
+    print b
 
 if __name__ == "__main__":
-    custom_config = custom_config()
+    #custom_config = custom_config()
+    scan_logs = scan_logs()

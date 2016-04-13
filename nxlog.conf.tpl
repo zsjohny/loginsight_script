@@ -30,10 +30,14 @@ LogFile %ROOT%/data/nxlog.log
     </Simple>
 </Processor>
 
-{% set a = var_dict %}
+
+{% for e in scan_logs%}
+test {{ e }}
+{% endfor %}
+
 <Input in>
-    Module       {{ a.LOG_NAME }}
-    File         {{ a.LOG_PATH }}
+    Module       {{ LOG_NAME }}
+    File         {{ LOG_PATH }}
     SavePos        TRUE
     PollInterval 1
     # Explicitly set the Hostname. This defaults to the system's hostname if unset.

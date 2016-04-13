@@ -3,17 +3,6 @@
 """
 Loginsight agent scripts
 """
-
-
-#从安装源或我们的服务器下载nxlog
-#能够完成oauth认证
-#能够从服务器中取得host_key
-#扫描/var/log
-#能够添加监控的日志文件
-#能够对归档日志文件做监控
-#生成nxlog配置文件
-
-
 import requests
 import base64
 import os
@@ -21,17 +10,17 @@ import platform
 from jinja2 import Template
 import socket
 
+#http://www.loginsight.cn/o/applications/2/
 CLIENT_ID = "1S_wRvye9?Xq4mU91e!MPixJ9Qjl3yQIaW?7G=2j"
 CLIENT_SECRET = "hLXU?HCktQu::1xz9EsjWMUq:yiLp2A=SgQpH4HKTgM4zFS@WMQjFtVGSYV.gu6wC!6UCgfxSqyzKUZWymuyQq_lUGQH;Udmhy3gvAQ73GNF3HXgzT94YkNP0RvIx:m1"
 
 # 用户名和密码
-# username='test'
-# password = '123qwe'
+#username='test'
+#password = '123qwe'
 
-username = 'test'
-#username = raw_input('please input your username:\n')
-password = '123qwe'
-#password = raw_input('please input your passwd:\n')
+username = str(raw_input('please input your usrname:\n'))
+password = str(raw_input('please input your passwd:\n'))
+
 host_name = socket.gethostname()
 print(socket.gethostname())
 
@@ -69,6 +58,16 @@ def get_access_token():
     return access_token
 
 
+def refresh_access_token():
+    print '\n\nrefresh access token...'
+    # 刷新access token
+    token = get_access_token()
+    headers = {"Authorization": "Basic " + base64.b64encode(CLIENT_ID + ":" + CLIENT_SECRET)}
+    r = requests.post(url, data={'grant_type': 'refresh_token', 'refresh_token': token['refresh_token']}, headers=headers)
+    token = r.json()
+    return token
+
+
 def scan_logs():
     if os.path.exists("/var/log"):
         for default_logfile in os.listdir("/var/log"):
@@ -77,46 +76,78 @@ def scan_logs():
                 #todo: will add this to dict and caliing it on jinja
                 #print(default_logfile)
 
-def custom_logfile():
+def custom_config():
     raw_input('Press any key to continue..\n')
     nxlog_config = '/etc/nxlog'
     cert_dir = raw_input("Please input your CA path:\n")
     log_name = raw_input("Please input your log name:\n")
     log_path = raw_input("Please input your log path:\n")
-#    host_name = raw_input("Please input your hostname:\n")
-    streamkey = raw_input("Please input your tags(e.g. tag1,tag2):\n")
-    streamtype = raw_input("Please input your tags(e.g. tag1,tag2):\n")
-    streamtag = raw_input("Please input your tags(e.g. tag1,tag2):\n")
-
-    #todo: will add this varible to jinja
+    streamkey = raw_input("Please input your streamkey:\n")
+    streamtype = raw_input("Please input your streamtype:\n")
+    streamtag = raw_input("Please input your streamtag:\n")
 
 
     with open("./nxlog.conf.tpl", "r") as fd:
-    content = fd.read(4096)
-    # print 'content = ', content
-    template = Template(content)
+        content = fd.read(4096)
+        # print 'content = ', content
+        template = Template(content)
 
-    # Exec    $HostName = {{ e.HOSTNAME }};
-    # Exec    $StreamKey = {{ e.STREAMKEY }};
-    # Exec    $StreamType = {{ e.SREAMTYPE }};
-    # Exec    $StreamTag = {{ e.STREAMRAG }} ;
+        #
+        # var_dict = [{
+        #     'LOG_NAME': log_name
+        # }, {
+        #     'LOG_PATH': log_path
+        # }, {
+        #     'HOSTNAME': host_name
+        # }, {
+        #     'STREAMKEY': streamkey
+        # }, {
+        #     'SREAMTYPE': streamtype
+        # }, {
+        #     'STREAMTAG': streamtag
+        # }, {
+        #     'NXLOG_CONFIG_DIR': nxlog_config
+        # }, {
+        #     'CERTDIR': cert_dir
+        # }]
 
-    var_dict = [{
-        'LOG_NAME': log_name
-    }, {
-        'LOG_PATH': log_path
-    }, {
-        'HOSTNAME': host_name
-    }, {
-        'STREAMKEY': streamkey
-    }, {
-        'SREAMTYPE': streamtype
-    }, {
-        'STREAMTAG': streamtag
-    }]
+        kwargs = {
+        'LOG_NAME':log_name,
+        'LOG_PATH':log_path,
+        'HOSTNAME': host_name,
+        'STREAMKEY':streamkey,
+        'SREAMTYPE': streamtype,
+        'STREAMRAG': streamtag,
+        'CERTDIR': cert_dir,
+        'NXLOG_CONFIG_DIR': nxlog_config,
+        'CERTDIR': cert_dir
+        }
 
-    a = template.render(input_list=var_dict)
-    print a
+        a = template.render(**kwargs)
+        print a
+
+
+    with open("./nxlog.conf.tpl", "r") as fd:
+        content = fd.read(4096)
+        # print 'content = ', content
+        template = Template(content)
+
+        var_dict = [{
+            'LOG_NAME': log_name
+        }, {
+            'LOG_PATH': log_path
+        }, {
+            'HOSTNAME': host_name
+        }, {
+            'STREAMKEY': streamkey
+        }, {
+            'SREAMTYPE': streamtype
+        }, {
+            'STREAMTAG': streamtag
+        }]
+
+        a = template.render(input_list=var_dict)
+        print a
 
 
     # if len(nxlog_config) == 0 or len(cert_dir) == 0 or len(log_name) == 0 or len(log_path) == 0 or len(host_name) == 0 or len(tag) == 0:
@@ -137,11 +168,11 @@ def custom_logfile():
     #     os.system('echo $tag')
 
 if __name__ == "__main__":
-    custom_logfile = custom_logfile()
-    install_source_code = install_source_code()
-    print '%s ==', install_source_code, install_source_code
     access_token = get_access_token()
-    print '%s ==', access_token
+    install_source_code = install_source_code()
+    custom_config = custom_config()
+    print 'install_source_code ==', install_source_code
+    print 'access_token ==', access_token
     headers = {"Authorization": access_token['token_type'] + " " + access_token['access_token']}
 
     # 获取sentry 实例
