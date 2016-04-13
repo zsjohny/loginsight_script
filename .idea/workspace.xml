@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="e7bd1bdc-d375-4038-a1c8-57ac4abf30dd" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/loginsight_agent.py" afterPath="$PROJECT_DIR$/loginsight_agent.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/miss_pkg" afterPath="$PROJECT_DIR$/miss_pkg" />
     </list>
     <ignored path="loginsight.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -38,8 +37,8 @@
       <file leaf-file-name="loginsight_agent.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/loginsight_agent.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.86021507">
-              <caret line="48" column="4" selection-start-line="48" selection-start-column="4" selection-end-line="48" selection-end-column="4" />
+            <state vertical-scroll-proportion="0.6989247">
+              <caret line="47" column="73" selection-start-line="47" selection-start-column="23" selection-end-line="47" selection-end-column="73" />
               <folding>
                 <element signature="e#78#93#0" expanded="true" />
               </folding>
@@ -61,7 +60,7 @@
         <entry file="file://$PROJECT_DIR$/miss_pkg">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="1" column="27" selection-start-line="1" selection-start-column="27" selection-end-line="1" selection-end-column="27" />
+              <caret line="0" column="12" selection-start-line="0" selection-start-column="12" selection-end-line="0" selection-end-column="22" />
               <folding />
             </state>
           </provider>
@@ -813,15 +812,15 @@
     <entry file="file://$PROJECT_DIR$/miss_pkg">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="1" column="27" selection-start-line="1" selection-start-column="27" selection-end-line="1" selection-end-column="27" />
+          <caret line="0" column="12" selection-start-line="0" selection-start-column="12" selection-end-line="0" selection-end-column="22" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/loginsight_agent.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.86021507">
-          <caret line="48" column="4" selection-start-line="48" selection-start-column="4" selection-end-line="48" selection-end-column="4" />
+        <state vertical-scroll-proportion="0.6989247">
+          <caret line="47" column="73" selection-start-line="47" selection-start-column="23" selection-end-line="47" selection-end-column="73" />
           <folding>
             <element signature="e#78#93#0" expanded="true" />
           </folding>

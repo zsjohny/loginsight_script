@@ -31,22 +31,27 @@ url = "http://auth.loginsight.cn/o/token/"
 headers = {"Authorization": "Basic " + base64.b64encode(CLIENT_ID + ":" + CLIENT_SECRET)}
 
 def main():
+    nxlog_data_path = '/etc/nxlog/data'
+    isExists=os.path.exists(nxlog_data_path)
     if platform_info == "Linux" or platform_info == "linux" :
+        if isExists:
+            pass
+        else:
+           os.makedirs(nxlog_data_path)
         if sys_type == "Ubuntu":
             os.system('sudo apt-get install  libdbi1 libapr1 libperl5.18 -y')
             os.system('wget -P /tmp https://nxlog.co/system/files/products/files/1/nxlog-ce_2.9.1504_ubuntu_1404_amd64.deb')
             os.system('sudo dpkg -i /tmp/nxlog-ce_2.9.1504_ubuntu_1404_amd64.deb')
-        elif sys_type == "Redhat" or sys_type =="Centos":
-            os.system('yum install -y libdbi1 libapr1 libperl5.18 pip')
+        elif sys_type == "Redhat" in sys_type or sys_type =="CentOS Linux":
+            os.system('yum install -y libdbi libdbi.so.0 libpcre.so.0 libpcre.so*')
             os.system('wget -P /tmp https://nxlog.co/system/files/products/files/1/nxlog-ce-2.9.1504-1_rhel6.x86_64.rpm')
-            os.system('yum -ivh /tmp/nxlog-ce-2.9.1504-1_rhel6.x86_64.rpm')
+            os.system('rpm -ivh /tmp/nxlog-ce-2.9.1504-1_rhel6.x86_64.rpm')
         else:
             print "You linux system not support."
     elif platform_info == "Windows":
         print "Please read and install window docs."
     else:
         print "Not support to mac"
-    os.mkdir('/etc/nxlog/data')
 
 def get_access_token():
     # 请求oauth access token
