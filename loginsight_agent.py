@@ -79,9 +79,9 @@ def scan_logs():
 
 def custom_config():
     raw_input('Press any key to continue..\n')
-    nxlog_config = "/etc/nxlog"
-    tpl_file = "./loginsight_agent.conf.tpl"
-    output_file = "/etc/nxlog/nxlog.conf"
+    nxlog_config = '/etc/nxlog'
+    tpl_file = './nxlog.conf.tpl'
+    output_file = '%s/nxlog.conf' % nxlog_config
     cert_dir = raw_input("Please input your CA path:\n")
     log_name = raw_input("Please input your log name:\n")
     log_path = raw_input("Please input your log path:\n")
@@ -89,6 +89,7 @@ def custom_config():
     streamtype = raw_input("Please input your streamtype:\n")
     streamtag = raw_input("Please input your streamtag:\n")
 
+    os.chdir('/root')
     with open(tpl_file, "r") as fd:
         content = fd.read(4096)
         # print 'content = ', content

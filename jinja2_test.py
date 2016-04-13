@@ -11,7 +11,7 @@ Create Date: 2016-04-12 21:56:58
 from jinja2 import Template
 import os
 
-# with open("./loginsight_agent.conf.tpl", "r") as fd:
+# with open("./nxlog.conf.tpl", "r") as fd:
 #     content = fd.read(4096)
 #     # print 'content = ', content
 #     template = Template(content)
