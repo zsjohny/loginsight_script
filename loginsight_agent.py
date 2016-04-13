@@ -93,7 +93,7 @@ def custom_config():
     streamtype = raw_input("Please input your streamtype:\n")
     streamtag = raw_input("Please input your streamtag:\n")
 
-    os.chdir('/root')
+
     with open(tpl_file, "r") as fd:
         content = fd.read(4096)
         # print 'content = ', content
