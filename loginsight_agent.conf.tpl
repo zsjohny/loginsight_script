@@ -21,6 +21,7 @@ LogFile %ROOT%/data/nxlog.log
     </Simple>
 </Processor>
 
+########### You can add logfile to new block #########
 <Input in>
     Module       im_file
     File         {{ LOG_PATH }}
@@ -34,7 +35,7 @@ LogFile %ROOT%/data/nxlog.log
 
     Exec    $FileName = file_name();
 </Input>
-
+########## END ###########
 
 
 <Input tcp_in>

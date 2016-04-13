@@ -1,6 +1,6 @@
 define ROOT  /etc/nxlog
 #/root/nxlog_workpace
-define CERTDIR capath
+define CERTDIR 
 #/root/nxlog_workpace/ssl
 
 Moduledir /usr/lib/nxlog/modules/

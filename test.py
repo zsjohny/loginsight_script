@@ -11,77 +11,30 @@ Create Date: 2016-04-12 21:56:58
 from jinja2 import Template
 import os
 import socket
+import platform
 
 host_name = socket.gethostname()
+platform_info = platform.system()
+sys_type = platform.linux_distribution()[0]
 
-def custom_config():
-    raw_input('Press any key to continue..\n')
-    nxlog_config = '/etc/nxlog'
-    cert_dir = raw_input("Please input your CA path:\n")
-    log_name = raw_input("Please input your log name:\n")
-    log_path = raw_input("Please input your log path:\n")
-    streamkey = raw_input("Please input your streamkey:\n")
-    streamtype = raw_input("Please input your streamtype:\n")
-    streamtag = raw_input("Please input your streamtag:\n")
+def main():
+    if platform_info == "Linux" or platform_info == "linux" :
+        if sys_type == "Ubuntu":
+            os.system('sudo apt-get install  libdbi1 libapr1 libperl5.18 -y')
+            os.chdir('/tmp')
+            os.system('wget https://nxlog.co/system/files/products/files/1/nxlog-ce_2.9.1504_ubuntu_1404_amd64.deb')
+            os.system('sudo dpkg -i nxlog-ce_2.9.1504_ubuntu_1404_amd64.deb')
+        elif sys_type == "Redhat" or sys_type =="Centos":
+            os.system('yum install -y libdbi1 libapr1 libperl5.18 pip')
+            os.chdir('/tmp')
+            os.system('https://nxlog.co/system/files/products/files/1/nxlog-ce-2.9.1504-1_rhel6.x86_64.rpm')
+            os.system('yum -ivh nxlog-ce-2.9.1504-1_rhel6.x86_64.rpm')
+        else:
+            print "You linux system not support."
+    elif platform_info == "Windows":
+        print "Please read and install window docs."
+    else:
+        print "Not support to mac"
 
-    #todo: will add this varible to jinja
-
-
-    with open("./nxlog.conf.tpl", "r") as fd:
-        content = fd.read(4096)
-        # print 'content = ', content
-        template = Template(content)
-
-        #
-        # var_dict = [{
-        #     'LOG_NAME': log_name
-        # }, {
-        #     'LOG_PATH': log_path
-        # }, {
-        #     'HOSTNAME': host_name
-        # }, {
-        #     'STREAMKEY': streamkey
-        # }, {
-        #     'SREAMTYPE': streamtype
-        # }, {
-        #     'STREAMTAG': streamtag
-        # }, {
-        #     'NXLOG_CONFIG_DIR': nxlog_config
-        # }, {
-        #     'CERTDIR': cert_dir
-        # }]
-
-        kwargs = {
-        'LOG_NAME':log_name,
-        'LOG_PATH':log_path,
-        'HOSTNAME': host_name,
-        'STREAMKEY':streamkey,
-        'SREAMTYPE': streamtype,
-        'STREAMRAG': streamtag,
-        'CERTDIR': cert_dir,
-        'NXLOG_CONFIG_DIR': nxlog_config,
-        'CERTDIR': cert_dir
-        }
-
-        a = template.render(**kwargs)
-        print a
-
-def scan_logs():
-    if os.path.exists("/var/log"):
-        for default_logfile in os.listdir("/var/log"):
-            if default_logfile.endswith("log"):
-                return default_logfile
-                #todo: will add this to dict and caliing it on jinja
-                #print(default_logfile)
-
-    with open("./nxlog.conf.tpl", "r") as fd:
-        content = fd.read(4096)
-        # print 'content = ', content
-        template = Template(content)
-
-    b = template.render(scan_logs = scan_logs())
-    print b
-
-if __name__ == "__main__":
-    #custom_config = custom_config()
-    scan_logs = scan_logs()
+if __name__ == '__main__':
+    main()

@@ -20,34 +20,35 @@ CLIENT_SECRET = "hLXU?HCktQu::1xz9EsjWMUq:yiLp2A=SgQpH4HKTgM4zFS@WMQjFtVGSYV.gu6
 
 username = str(raw_input('please input your usrname:\n'))
 password = str(raw_input('please input your passwd:\n'))
+host_type = str(raw_input('please input your will add host type(e.g. web):\n'))
 
 host_name = socket.gethostname()
-print(socket.gethostname())
+platform_info = platform.system()
+sys_type = platform.linux_distribution()[0]
 
 url = "http://auth.loginsight.cn/o/token/"
 headers = {"Authorization": "Basic " + base64.b64encode(CLIENT_ID + ":" + CLIENT_SECRET)}
 
-def install_source_code():
-    platform_info = platform.system()
-    sys_type = platform.linux_distribution()[0]
-
-    if platform_info == "linux":
+def main():
+    if platform_info == "Linux" or platform_info == "linux" :
         if sys_type == "Ubuntu":
-            os.system('sudo apt-get install  libdbi1 libapr1 libperl5.18  -y')
+            os.system('sudo apt-get install  libdbi1 libapr1 libperl5.18 -y')
             os.chdir('/tmp')
             os.system('wget https://nxlog.co/system/files/products/files/1/nxlog-ce_2.9.1504_ubuntu_1404_amd64.deb')
             os.system('sudo dpkg -i nxlog-ce_2.9.1504_ubuntu_1404_amd64.deb')
         elif sys_type == "Redhat" or sys_type =="Centos":
-            os.system('yum install -y libdbi1 libapr1 libperl5.18')
+            os.system('yum install -y libdbi1 libapr1 libperl5.18 pip')
             os.chdir('/tmp')
             os.system('https://nxlog.co/system/files/products/files/1/nxlog-ce-2.9.1504-1_rhel6.x86_64.rpm')
             os.system('yum -ivh nxlog-ce-2.9.1504-1_rhel6.x86_64.rpm')
         else:
             print "You linux system not support."
-    elif platform_info== "Darwin" or platform_info== "Windows":
-         print "You script just for linux."
+    elif platform_info == "Windows":
+        print "Please read and install window docs."
+    else:
+        print "Not support to mac"
 
-#fixme: will download config
+#fixme: will download CA
 
 def get_access_token():
     # 请求oauth access token
@@ -78,17 +79,17 @@ def scan_logs():
 
 def custom_config():
     raw_input('Press any key to continue..\n')
-    nxlog_config = '/etc/nxlog'
+    nxlog_config = "/etc/nxlog"
+    tpl_file = "./loginsight_agent.conf.tpl"
+    output_file = "/etc/nxlog/nxlog.conf"
     cert_dir = raw_input("Please input your CA path:\n")
     log_name = raw_input("Please input your log name:\n")
     log_path = raw_input("Please input your log path:\n")
     streamkey = raw_input("Please input your streamkey:\n")
     streamtype = raw_input("Please input your streamtype:\n")
     streamtag = raw_input("Please input your streamtag:\n")
-    tpl_dir = "./nxlog.conf.tpl"
-    output_file = "./test.dat"
 
-    with open(tpl_dir, "r") as fd:
+    with open(tpl_file, "r") as fd:
         content = fd.read(4096)
         # print 'content = ', content
         template = Template(content)
@@ -147,16 +148,14 @@ def custom_config():
     #     os.system('echo $tag')
 
 if __name__ == "__main__":
+    main()
     access_token = get_access_token()
-    install_source_code = install_source_code()
     custom_config = custom_config()
-    print 'install_source_code ==', install_source_code
     print 'access_token ==', access_token
     headers = {"Authorization": access_token['token_type'] + " " + access_token['access_token']}
 
     # 获取sentry 实例
     # 向sentry 实例注册主机
-    data = {'host_name': 'testhost1', 'host_type': 'web1', 'system': 'linux', 'distver': '1.0', 'mac_addr': "ff-cc-cd-20-21-21" }
+    data = {'host_name': host_name, 'host_type': host_type, 'system': platform_info, 'distver': '1.0', 'mac_addr': "ff-cc-cd-20-21-21" }
     r = requests.post(url="http://app.loginsight.cn/api/0/agent/hosts", data=data, headers=headers)
     print 'registered success!', r.text
-
