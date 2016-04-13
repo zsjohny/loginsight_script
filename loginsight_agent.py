@@ -9,6 +9,7 @@ import os
 import platform
 from jinja2 import Template
 import socket
+import urllib2
 
 #http://www.loginsight.cn/o/applications/2/
 CLIENT_ID = "1S_wRvye9?Xq4mU91e!MPixJ9Qjl3yQIaW?7G=2j"
@@ -33,13 +34,11 @@ def main():
     if platform_info == "Linux" or platform_info == "linux" :
         if sys_type == "Ubuntu":
             os.system('sudo apt-get install  libdbi1 libapr1 libperl5.18 -y')
-            os.chdir('/tmp')
-            os.system('wget https://nxlog.co/system/files/products/files/1/nxlog-ce_2.9.1504_ubuntu_1404_amd64.deb')
+            os.system('wget -P /tmp https://nxlog.co/system/files/products/files/1/nxlog-ce_2.9.1504_ubuntu_1404_amd64.deb')
             os.system('sudo dpkg -i nxlog-ce_2.9.1504_ubuntu_1404_amd64.deb')
         elif sys_type == "Redhat" or sys_type =="Centos":
             os.system('yum install -y libdbi1 libapr1 libperl5.18 pip')
-            os.chdir('/tmp')
-            os.system('https://nxlog.co/system/files/products/files/1/nxlog-ce-2.9.1504-1_rhel6.x86_64.rpm')
+            os.system('wget -P /tmp https://nxlog.co/system/files/products/files/1/nxlog-ce-2.9.1504-1_rhel6.x86_64.rpm')
             os.system('yum -ivh nxlog-ce-2.9.1504-1_rhel6.x86_64.rpm')
         else:
             print "You linux system not support."
@@ -48,7 +47,6 @@ def main():
     else:
         print "Not support to mac"
 
-#fixme: will download CA
 
 def get_access_token():
     # 请求oauth access token
@@ -76,6 +74,12 @@ def scan_logs():
                 return default_logfile
                 #todo: will add this to dict and caliing it on jinja
                 #print(default_logfile)
+
+
+# def download_CA():
+#     response = urllib2.urlopen('http://www.example.com/')
+#     html = response.read()
+
 
 def custom_config():
     raw_input('Press any key to continue..\n')
