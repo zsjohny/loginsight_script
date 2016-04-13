@@ -31,7 +31,6 @@ url = "http://auth.loginsight.cn/o/token/"
 headers = {"Authorization": "Basic " + base64.b64encode(CLIENT_ID + ":" + CLIENT_SECRET)}
 
 def main():
-    os.mkdir('/etc/nxlog/data')
     if platform_info == "Linux" or platform_info == "linux" :
         if sys_type == "Ubuntu":
             os.system('sudo apt-get install  libdbi1 libapr1 libperl5.18 -y')
@@ -47,7 +46,7 @@ def main():
         print "Please read and install window docs."
     else:
         print "Not support to mac"
-
+    os.mkdir('/etc/nxlog/data')
 
 def get_access_token():
     # 请求oauth access token
