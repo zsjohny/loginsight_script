@@ -53,9 +53,9 @@ LogFile %ROOT%/data/nxlog.log
     Module	om_ssl
     Host	127.0.0.1
     Port	12000
-    CAFile	%CERTDIR%/ca.crt
-    CertFile	%CERTDIR%/server.crt
-    CertKeyFile %CERTDIR%/server.key
+    CAFile	%CERTDIR%/IntermediateCA.crt
+    CertFile	%CERTDIR%/ssl/server.csr
+    CertKeyFile %CERTDIR%/ssl/server.key
     KeyPass	123456
     AllowUntrusted  TRUE
     OutputType	Binary

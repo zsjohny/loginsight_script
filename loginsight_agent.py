@@ -105,7 +105,7 @@ def custom_config():
     nxlog_config = '/etc/nxlog'
     tpl_file = './nxlog.conf.tpl'
     output_file = '%s/nxlog.conf' % nxlog_config
-    cert_dir = raw_input("Please input your CA path:\n")
+    cert_dir = '%s/CA' % (nxlog_data_path)
     log_name = raw_input("Please input your log name:\n")
     log_path = raw_input("Please input your log path:\n")
     streamkey = raw_input("Please input your streamkey:\n")
