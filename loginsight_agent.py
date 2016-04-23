@@ -29,12 +29,12 @@ sys_type = platform.linux_distribution()[0]
 
 url = "http://auth.loginsight.cn/o/token/"
 headers = {"Authorization": "Basic " + base64.b64encode(CLIENT_ID + ":" + CLIENT_SECRET)}
+nxlog_data_path = '/etc/nxlog/data'
 
 def main():
-    nxlog_data_path = '/etc/nxlog/data'
-    isExists=os.path.exists(nxlog_data_path)
+    pathisexists=os.path.exists(nxlog_data_path)
     if platform_info == "Linux" or platform_info == "linux" :
-        if isExists:
+        if pathisexists:
             pass
         else:
            os.makedirs(nxlog_data_path)
@@ -54,6 +54,18 @@ def main():
         print "Please read and install window docs."
     else:
         print "Not support to mac"
+
+
+def ca():
+    ca_file = 'CA.tar.gz'
+    ca_username = 'loginsight'
+    ca_passwd = 'loginsight'
+    Auth = '%s:%s' % (ca_username, ca_passwd)
+    ca_url = 'http://%s@download.loginsight.cn/%s' % (Auth, ca_file)
+    # Download ca
+    os.system('wget -P %s %s' % (nxlog_data_path, ca_url))
+    os.system('tar fvxz %s/%s -C %s' % (nxlog_data_path, ca_file, nxlog_data_path))
+
 
 def get_access_token():
     # 请求oauth access token
@@ -161,6 +173,7 @@ def custom_config():
 
 if __name__ == "__main__":
     main()
+    ca()
     access_token = get_access_token()
     custom_config = custom_config()
     print 'access_token ==', access_token
