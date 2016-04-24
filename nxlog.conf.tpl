@@ -34,7 +34,6 @@ LogFile %ROOT%/data/nxlog.log
     Exec    $StreamKey = '{{ STREAMKEY }}';
     Exec    $StreamType = '{{ SREAMTYPE }}';
     Exec    $StreamTag = '{{ STREAMRAG }}';
-
     Exec    $FileName = file_name();
 </Input>
 ########## END ###########
@@ -46,7 +45,7 @@ LogFile %ROOT%/data/nxlog.log
     CAFile	%CERTDIR%/cacert.pem
     CertFile	%CERTDIR%/server.crt
     CertKeyFile %CERTDIR%/server.key
-    KeyPass	123456
+    KeyPass	secret
     AllowUntrusted  TRUE
     OutputType	Binary
 </Output>
