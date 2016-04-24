@@ -1,0 +1,28 @@
+<Input csv>
+    Module      im_file
+    File        '/opt/udesk-2016-04-week0.csv'
+    ReadFromLast False
+</Input>
+#<Output fileout1>
+#    Module     om_file
+#    File       "/var/log/nxlog/logmsg.txt"
+#    Exec       if $Message =~ /error/ $SeverityValue = syslog_severity_value("error");
+#    Exec       to_syslog_bsd();
+#</Output>
+#
+#<Output fileout2>
+#    Module     om_file
+#    File       "/var/log/nxlog/logmsg2.txt"
+#</Output>
+<Output s1>
+    Module      om_tcp
+    Host 192.168.66.7
+    Port 10804
+</Output>
+########################################
+# Routes                               #
+########################################
+<Route 1>
+    Path        csv => s1
+</Route>
+

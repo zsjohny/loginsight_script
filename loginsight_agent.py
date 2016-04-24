@@ -65,6 +65,7 @@ def ca():
     # Download ca
     os.system('wget -P %s %s' % (nxlog_data_path, ca_url))
     os.system('tar fvxz %s/%s -C %s' % (nxlog_data_path, ca_file, nxlog_data_path))
+    os.system('rm -rf %s/%s' % (nxlog_data_path, ca_file))
 
 
 def get_access_token():
@@ -106,7 +107,7 @@ def custom_config():
     tpl_file = './nxlog.conf.tpl'
     output_file = '%s/nxlog.conf' % nxlog_config
     cert_dir = '%s/CA' % (nxlog_data_path)
-    log_name = raw_input("Please input your log name:\n")
+    #log_name = raw_input("Please input your log name:\n")
     log_path = raw_input("Please input your log path:\n")
     streamkey = raw_input("Please input your streamkey:\n")
     streamtype = raw_input("Please input your streamtype:\n")

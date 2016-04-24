@@ -1,0 +1,40 @@
+define ROOT  /etc/nxlog
+#/root/nxlog_workpace
+define CERTDIR /etc/nxlog/data/CA
+#/root/nxlog_workpace/ssl
+
+Moduledir /usr/lib/nxlog/modules/
+#/usr/lib/nxlog/modules
+
+CacheDir %ROOT%/data
+
+Pidfile %ROOT%/data/nxlog.pid
+
+SpoolDir %ROOT%/data
+
+LogFile %ROOT%/data/nxlog.log
+#LogLevel DEBUG
+
+<Input ssl>
+    Module	im_ssl
+#    Host	120.27.125.103
+    Port	12000
+    CAFile	%CERTDIR%/cacert.pem
+    CertFile	%CERTDIR%/server.crt
+    CertKeyFile %CERTDIR%/server.key
+    KeyPass	secret
+    AllowUntrusted  TRUE
+    InputType	Binary
+</Input>
+
+<Output log>
+    Module     om_file
+    File       '/var/log/output.log'
+</Output>
+
+########################################
+# Routes                               #
+########################################
+<Route 1>
+    Path        ssl => log
+</Route>
