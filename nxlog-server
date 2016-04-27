@@ -17,7 +17,7 @@ LogFile %ROOT%/data/nxlog.log
 
 <Input ssl>
     Module	im_ssl
-#    Host	120.27.125.103
+    Host        0.0.0.0
     Port	12000
     CAFile	%CERTDIR%/cacert.pem
     CertFile	%CERTDIR%/server.crt
@@ -27,14 +27,15 @@ LogFile %ROOT%/data/nxlog.log
     InputType	Binary
 </Input>
 
-<Output log>
-    Module     om_file
-    File       '/var/log/output.log'
+<Output tcp_out>
+    Module	om_tcp
+    Port	12802
+    Host	127.0.0.1
 </Output>
 
 ########################################
 # Routes                               #
 ########################################
 <Route 1>
-    Path        ssl => log
+    Path        ssl => tcp_out
 </Route>
